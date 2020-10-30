@@ -12,7 +12,8 @@ import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
 import {MatSelectModule} from "@angular/material/select";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @NgModule({
   declarations: [
@@ -29,7 +30,9 @@ import {FormsModule} from "@angular/forms";
     MatInputModule,
     MatIconModule,
     MatSelectModule,
-    FormsModule
+    FormsModule,
+    MatProgressSpinnerModule,
+    ReactiveFormsModule
   ],
   providers: [SubgrupoService, HttpClient],
   bootstrap: [AppComponent]

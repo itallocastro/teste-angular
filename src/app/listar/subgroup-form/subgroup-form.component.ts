@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {SubgrupoService} from "../../servicos/subgrupo.service";
 import {SubGrupoModel} from "../../models/subGrupo.model";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-subgroup-form',
@@ -12,10 +13,15 @@ export class SubgroupFormComponent implements OnInit {
 
   param;
   selecionado = 1032;
+  clicou = false;
   dado: SubGrupoModel = new SubGrupoModel();
-  constructor(private route: ActivatedRoute, private router: Router, private subgrupoService: SubgrupoService) { }
+  formGroup: FormGroup;
+  constructor(private route: ActivatedRoute,
+              private router: Router, private formBuilder: FormBuilder,
+              private subgrupoService: SubgrupoService) { }
 
   ngOnInit(): void {
+    this.criarForm();
     this.route.params.subscribe((params) => {
       this.param = params['id'];
       if(this.param) {
@@ -23,6 +29,13 @@ export class SubgroupFormComponent implements OnInit {
       }
     });
   }
+
+  criarForm() {
+    this.formGroup = this.formBuilder.group({
+      descricao: ['', [Validators.required]],
+    });
+  }
+
   conseguirDado() {
     this.subgrupoService.conseguirDado(this.param).subscribe((dado: any) => {
       this.dado.id = dado.resultado.id;
@@ -39,19 +52,25 @@ export class SubgroupFormComponent implements OnInit {
       grupo_id: this.selecionado
     };
     this.subgrupoService.updateDado(fields).subscribe((resultado) => {
-      console.log(resultado);
+      this.clicou = true;
+      // console.log(resultado);
       this.router.navigate(['listar']);
+    }, (err) => {
+      this.clicou = false;
+      console.log(err);
     });
   }
   inserirDado() {
     const fields = {
-      // id: this.dado.id,
       descricao: this.dado.descricao,
       grupo_id: this.selecionado
     };
     this.subgrupoService.inserirDado(fields).subscribe((resultado) => {
-      console.log(resultado);
+      this.clicou = true;
+      // console.log(resultado);
       this.router.navigate(['listar']);
+    }, (err) => {
+      this.clicou = false;
     });
   }
 

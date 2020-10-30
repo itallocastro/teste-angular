@@ -13,7 +13,12 @@ export class ListarComponent implements OnInit {
   constructor(private subgrupoService: SubgrupoService) { }
 
   ngOnInit(): void {
+    this.listar();
+  }
+
+  listar() {
     this.subgrupoService.listar().subscribe((dados: any) => {
+      this.lista = [];
       dados.resultado.forEach((dado) => {
         this.lista.push({
           id: dado.id,
@@ -22,14 +27,18 @@ export class ListarComponent implements OnInit {
           descricao: dado.descricao
         });
       });
-      console.log(dados);
+      // console.log(dados);
     }, (err) => {
       console.log(err);
     });
   }
-
   inativar(id: number) {
-    this.subgrupoService.inativar(id);
+    this.subgrupoService.inativar(id).subscribe((result) => {
+      this.listar();
+      // console.log(result);
+    }, (err) => {
+      console.log(err);
+    });
   }
 
 }

@@ -18,12 +18,9 @@ export class SubgrupoService {
   }
 
   inativar(id: number) {
-    this.httpClient.delete(`${urlBase}/subgrupo/${id}/`, {headers: {Authorization: auth, 'log-motivo': 'estou inativando porque o cadastro esta errado'}}).subscribe((teste) => {
-      this.listar();
-      console.log(teste);
-    }, (err) => {
-      console.log(err);
-    })
+    return this.httpClient.delete(
+      `${urlBase}/subgrupo/${id}/`,
+      {headers: {Authorization: auth, 'log-motivo': 'estou inativando porque o cadastro esta errado'}});
   }
 
   conseguirDado(id: number) {

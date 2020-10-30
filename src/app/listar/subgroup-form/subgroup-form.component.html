@@ -1,22 +1,51 @@
 <div class="container">
-  <div class="row justify-content-center">
-    <mat-form-field appearance="legacy" class="mr-3">
-      <mat-label>Descrição</mat-label>
-      <input matInput placeholder="Digite sua descrição" [(ngModel)]="dado.descricao">
-      <!--  <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>-->
-    </mat-form-field>
-    <mat-form-field appearance="legacy">
-      <mat-label>Grupo</mat-label>
-      <mat-select required [(value)]="selecionado">
-        <mat-option [value]="1032">Calça</mat-option>
-        <mat-option [value]="1033">Camisa</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-  <div class="row justify-content-center">
-    <button class="btn btn-success" *ngIf="param" (click)="editarDado()">Editar</button>
-    <button class="btn btn-success" *ngIf="!param" (click)="inserirDado()">Inserir</button>
-  </div>
+  <form [formGroup]="formGroup">
+    <div class="row justify-content-center">
+      <mat-form-field appearance="legacy" class="mr-3">
+        <mat-label>Descrição</mat-label>
+        <input matInput placeholder="Digite sua descrição" [(ngModel)]="dado.descricao" name="descricao" formControlName="descricao">
+      </mat-form-field>
+      <mat-form-field appearance="legacy">
+        <mat-label>Grupo</mat-label>
+        <mat-select required [(value)]="selecionado">
+          <mat-option [value]="1032">Calça</mat-option>
+          <mat-option [value]="1033">Camisa</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div *ngIf="formGroup.controls['descricao'].invalid
+              && (formGroup.controls['descricao'].dirty
+              || formGroup.controls['descricao'].touched)"
+         class="alert alert-dark">
+      <div *ngIf="formGroup.controls['descricao'].errors.required">
+        O campo Descrição é obrigatório.
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <button class="btn btn-success"
+              *ngIf="param"
+              (click)="editarDado()"
+              [disabled]="clicou || formGroup.pristine || formGroup.invalid">
+        <span *ngIf="!clicou">
+          Editar
+        </span>
+        <span *ngIf="clicou" style="display: flex;justify-content: space-between">
+          Aguarde alguns instantes... <mat-spinner [diameter]="30"></mat-spinner>
+        </span>
+      </button>
+      <button class="btn btn-success"
+              *ngIf="!param"
+              (click)="inserirDado()"
+              [disabled]="clicou || formGroup.pristine || formGroup.invalid">
+        <span *ngIf="!clicou">
+          Inserir
+        </span>
+        <span *ngIf="clicou" style="display: flex;justify-content: space-between">
+          Aguarde alguns instantes... <mat-spinner [diameter]="30"></mat-spinner>
+        </span>
+      </button>
+    </div>
+  </form>
 
 </div>
 
