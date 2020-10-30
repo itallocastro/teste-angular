@@ -1,0 +1,26 @@
+<div class="container">
+  <div class="row justify-content-end mb-2 mt-2">
+    <button class="btn btn-outline-success" routerLink="/criar">Inserir</button>
+  </div>
+  <table class="table" *ngIf="lista.length > 0">
+    <thead>
+    <tr>
+      <th scope="col">Id</th>
+      <th scope="col">Descrição</th>
+      <th scope="col">n_Grupo</th>
+      <th scope="col">ações</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let item of lista">
+      <th scope="row">{{item.grupo_id}}</th>
+      <td>{{item.descricao}}</td>
+      <td>{{item.n_grupo}}</td>
+      <td>
+        <button class="btn btn-success btn-sm" [routerLink]="['/editar/' + item.id]">Editar</button>
+        <button class="btn btn-danger btn-sm ml-1" (click)="inativar(item.id)">Inativar</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
